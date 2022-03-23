@@ -6,6 +6,7 @@ import uuid
 class Entity(models.Model):
     class Meta:
         abstract = True
+
     objects = models.Manager()
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
@@ -13,7 +14,7 @@ class Entity(models.Model):
 class Object(Entity):
     name = models.CharField('name', max_length=100)
     email = models.EmailField('email', max_length=100, default=None, blank=True, null=True)
-    phone_num = models.CharField('phone_num', max_length=100)
+    phone_num = models.CharField('phone_num', max_length=100, )
     age = models.IntegerField('age')
     gender = models.CharField('gender', max_length=10)
     attend = models.BooleanField(default=False)
@@ -38,8 +39,14 @@ class Session(Entity):
         self.file = None
         super().save()
         for i in range(0, len(data.index)):
-            name = str(data.loc[i, 'First']) + ' ' + str(data.loc[i, 'Second']) + ' ' + str(data.loc[i, 'Third'])
+            name = str(data.loc[i, 'First']) + ' ' + '' if str(data.loc[i, 'Second']) == 'nan' else str(
+                data.loc[i, 'Second']) + ' ' + '' if str(data.loc[i, 'Third']) == 'nan' else str(
+                data.loc[i, 'Third'])
             email = data.loc[i, 'Email']
+            if str(email) == 'nan':
+                email = None
+            else:
+                email = email
             print(email)
             gender = data.loc[i, 'Gender']
             age = data.loc[i, 'Age']
