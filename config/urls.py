@@ -20,7 +20,7 @@ from app.controllers import app_controller
 
 
 api = NinjaAPI()
-api.add_router('auth', app_controller)
+api.add_router('', app_controller)
 
 urlpatterns = [
     path('api/', api.urls),

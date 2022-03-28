@@ -11,10 +11,10 @@ class Entity(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
 
-class Object(Entity):
+class Student(Entity):
     name = models.CharField('name', max_length=100)
     email = models.EmailField('email', max_length=100, default=None, blank=True, null=True)
-    phone_num = models.CharField('phone_num', max_length=100, )
+    phone_num = models.IntegerField('phone_num', default=None, blank=True, null=True)
     age = models.IntegerField('age')
     gender = models.CharField('gender', max_length=10)
     attend = models.BooleanField(default=False)
@@ -34,7 +34,6 @@ class Session(Entity):
         return f"{self.name}"
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        print("stated")
         data = pd.read_excel(self.file, sheet_name='Sheet 1')
         self.file = None
         super().save()
@@ -47,11 +46,10 @@ class Session(Entity):
                 email = None
             else:
                 email = email
-            print(email)
             gender = data.loc[i, 'Gender']
             age = data.loc[i, 'Age']
             phone_num = data.loc[i, 'Phone']
-            Object.objects.create(
+            Student.objects.create(
                 name=name,
                 email=email,
                 gender=gender,

@@ -1,8 +1,7 @@
 import datetime
-from typing import Optional
 
 from ninja import Schema
-from pydantic import EmailStr, Field, UUID4
+from pydantic import EmailStr, UUID4
 
 
 class MessageOut(Schema):
@@ -10,5 +9,12 @@ class MessageOut(Schema):
 
 
 class SessionOut(Schema):
+    id: UUID4
     name: str
     date: datetime.date
+
+
+class AttendanceIn(Schema):
+    email: str = None
+    phone_num: int = None
+    session_id: UUID4
