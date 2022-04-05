@@ -1,3 +1,5 @@
+import datetime
+
 from ninja import Router
 from typing import List
 from app.models import Session, Student
@@ -7,9 +9,9 @@ from app.schemas import SessionOut, MessageOut, AttendanceIn
 app_controller = Router(tags=['app'])
 
 
-@app_controller.get('get_all_session', response=List[SessionOut])
-def get_all_session(request):
-    return Session.objects.filter()
+@app_controller.get('get_today_session', response=List[SessionOut])
+def get_today_session(request):
+    return Session.objects.filter(date=datetime.date.today())
 
 
 @app_controller.post('Check_attendance', response={200: MessageOut, 400: MessageOut})
